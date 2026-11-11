@@ -1,0 +1,186 @@
+/* Trisian | sector pages and the hub (Directive v2). Loaded after styles.css, which owns tokens, nav, buttons, chips, cards and the
+   Industries header. Quiet system: solid fills, 24px panels, 16px cards, no outlines, no hard shadows, no purple.
+   Section headers are centered. */
+
+body.ip{font-size:18px;line-height:1.55}
+.ip-wrap{width:100%;margin:0 auto;padding:0 var(--side)}
+.ip-s{padding:var(--pad) 0}
+.ip-white{background:#fff;color:var(--ink)}
+.ip-grey{background:var(--grey-1);color:var(--ink)}
+.ip-tint{background:var(--tint-1);color:var(--ink)}
+.ip-navy{background:var(--navy);color:#fff}
+.ip-indigo{background:var(--indigo);color:#fff}
+.ip-navy p,.ip-indigo p{color:var(--muted-d)}
+.ip-white p,.ip-grey p,.ip-tint p{color:var(--muted)}
+.ip-dark :focus-visible{outline-color:var(--tint-2)}
+.ip-note{font-size:14px;margin-top:20px}
+.ip-dark .link-arrow{color:var(--tint-2)}
+.ip-dark .link-arrow:hover{color:#fff}
+
+.ip-h1,.ip-h2,.ip-h3{margin:0;letter-spacing:-.02em}
+.ip-h1{font-size:clamp(40px,5.4vw,76px);line-height:1;font-weight:700}
+.ip-h1 .lt,.ip-h2 .lt{font-weight:300}
+.ip-h1 .bk,.ip-h2 .bk{font-weight:700}
+.ip-h1 .lt,.ip-h1 .bk,.ip-h2 .lt,.ip-h2 .bk{display:block}
+.ip-h2{font-size:clamp(34px,4.4vw,56px);line-height:1.04;font-weight:700;margin-bottom:24px;color:var(--ink);text-align:center}
+.ip-navy .ip-h2,.ip-indigo .ip-h2{color:#fff}
+.ip-h3{font-size:clamp(22px,2.4vw,28px);line-height:1.12;font-weight:700;letter-spacing:-.01em;color:var(--ink)}
+.ip-kicker{display:inline-flex;align-items:center;border-radius:999px;padding:8px 20px;font-size:var(--label);font-weight:600;letter-spacing:var(--label-track);background:var(--tint-1);color:var(--indigo);margin-bottom:22px}
+.ip-dark .ip-kicker{background:transparent;color:#fff;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.4)}
+.ip-sub{font-size:clamp(18px,1.6vw,20px);max-width:36rem;margin:24px 0 0}
+.ip-lead p{max-width:40rem;margin:0 0 18px}
+.ip-lead .ip-h2{text-align:left}
+
+/* buttons: same as home. on dark = white with a navy label */
+.ip-btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:16px 28px;border:0;border-radius:12px;font:600 16px/1.1 var(--f);text-decoration:none;cursor:pointer;transition:background .2s,transform .2s var(--ease)}
+.ip-btn:hover{transform:translateY(-2px)}
+.ip-btn.on-light{background:var(--indigo);color:#fff}.ip-btn.on-light:hover{background:var(--cobalt)}
+.ip-btn.on-dark,.ip-btn.on-indigo{background:#fff;color:var(--navy)}.ip-btn.on-dark:hover,.ip-btn.on-indigo:hover{background:var(--tint-1)}
+.ip-cta-row{display:flex;flex-wrap:wrap;align-items:center;gap:12px 28px;margin-top:36px}
+
+/* hero */
+.ip-hero{padding:88px 0 var(--pad)}
+.ip-hero-grid{display:grid;grid-template-columns:minmax(0,.88fr) minmax(0,1.12fr);gap:56px;align-items:center}
+.ip-hero .ip-h1{margin:0;color:#fff}
+.ip-hub-hero{text-align:center}
+.ip-hub-hero .ip-h1{max-width:14ch;margin:0 auto}
+.ip-hub-hero .ip-sub{margin-left:auto;margin-right:auto}
+@media(max-width:960px){.ip-hero-grid{grid-template-columns:1fr;gap:48px}}
+
+/* day-after panel: a white card on the navy hero, no shadow */
+.dap{--dot:var(--corn);background:#fff;border-radius:24px;padding:32px}
+.dap .dap-label{font-size:13px;font-weight:600;color:var(--muted);margin:0 0 16px}
+.dap-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:28px}
+.dap .dap-ts{font-size:13px;font-weight:600;color:var(--muted);margin:0 0 12px}
+.dap .dap-q{font-size:clamp(26px,2.6vw,34px);line-height:1.08;font-weight:700;letter-spacing:-.01em;color:var(--indigo);margin:0 0 20px}
+.dap-chips{display:flex;flex-wrap:wrap;gap:10px;list-style:none;margin:0;padding:0}
+.dap-chips li{padding:7px 14px;border-radius:999px;background:var(--tint-1);color:var(--ink);font-size:15px;line-height:1.3;rotate:var(--r,0deg)}
+.dap-r{border-left:1.5px solid var(--grey-2);padding-left:28px}
+.dap .dap-t{font-weight:700;color:var(--ink);margin:0 0 16px;font-size:18px}
+.dap-rows{list-style:none;margin:0;padding:0;display:grid;gap:14px}
+.dap-rows li{display:flex;align-items:center;gap:12px;color:var(--ink);font-size:16px}
+.dap-rows li span{color:var(--muted)}
+.dap-rows i{flex:none;width:12px;height:12px;border-radius:50%;border:2px solid var(--dot);background:var(--dot)}
+/* growth page: cornflower dots on every row, the last one indigo with a cornflower ring so it reads on the card */
+.dap--grow .dap-rows li:last-child i{background:var(--indigo);border-color:var(--corn)}
+@media(max-width:560px){.dap{padding:22px 18px}.dap-r{border-left:0;padding-left:0;border-top:1.5px solid var(--grey-2);padding-top:24px}}
+.dap[data-armed]:not(.go) .dap-chips li{opacity:0;translate:0 -6px}
+.dap[data-armed]:not(.go) .dap-rows li{opacity:0}
+.dap.go .dap-chips li{animation:dapDrop .35s var(--ease) both;animation-delay:calc(.35s + var(--i,0) * var(--stag,80ms))}
+.dap.go .dap-rows li{animation:dapRow .3s var(--ease) both;animation-delay:calc(.95s + var(--i,0) * 180ms)}
+@keyframes dapDrop{from{opacity:0;translate:0 -6px}to{opacity:1;translate:0 0}}
+@keyframes dapRow{from{opacity:0}to{opacity:1}}
+@media(prefers-reduced-motion:reduce){.dap *{animation:none!important;transition:none!important}.dap-chips li{rotate:0deg}}
+
+/* two-column section with a graphic and photo */
+.ip-two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:64px;align-items:start}
+@media(max-width:960px){.ip-two{grid-template-columns:1fr;gap:40px}}
+.ip-fig{border-radius:24px;padding:28px;background:var(--tint-1);margin:0 0 24px}
+.ip-fig svg{display:block;width:100%;height:auto}
+.ip-fig text{font-family:var(--f);font-size:15px;fill:var(--ink)}
+.ip-fig .st{stroke:var(--cobalt);stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.ip-fig .dt{fill:var(--indigo)}
+.ip-photo{margin:0;aspect-ratio:3/2;border-radius:24px;background:var(--tint-1);position:relative;overflow:hidden}
+.ip-photo img{width:100%;height:100%;object-fit:cover;display:block}
+.ip-quote{font-size:clamp(36px,5vw,52px);line-height:1;font-weight:300;letter-spacing:-.02em;margin:0;color:var(--indigo)}
+.ip-quote b{font-weight:700}
+.ip-cite{font-size:14px;margin:16px 0 0}
+
+/* three questions: solid cards, outline numerals */
+.ip-q3{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:48px}
+.ip-qcard{display:flex;flex-direction:column;background:#fff;border-radius:16px;padding:32px 28px;transition:transform .25s var(--ease)}
+.ip-qcard:hover{transform:translateY(-4px)}
+.ip-grey p.ip-num,.ip-navy p.ip-num,.ip-white p.ip-num{font-size:64px;line-height:1;font-weight:700;color:transparent;-webkit-text-stroke:1.5px var(--indigo);margin:0 0 20px}
+.ip-qcard .ip-h3{margin-bottom:16px}
+.ip-qcard p{margin:0 0 24px}
+.ip-qcard p b{font-weight:700;color:var(--indigo)}
+.ip-qcard .link-arrow{margin-top:auto}
+@media(max-width:960px){.ip-q3{grid-template-columns:1fr}}
+
+/* rules table */
+.ip-intro{margin:0 auto 8px;text-align:center}
+.rt{width:100%;border-collapse:collapse;margin-top:40px}
+.rt th,.rt td{text-align:left;vertical-align:top;padding:24px 24px 24px 0;border-top:1px solid rgba(255,255,255,.2);font-size:17px;line-height:1.5}
+.rt thead th{font-size:13px;font-weight:600;color:var(--muted-d);padding-top:0;border-top:0}
+.rt tbody th{font-weight:600;color:#fff;width:28%}
+.rt td{color:var(--muted-d);width:36%}
+.rt--head tbody th{font-size:20px;line-height:1.2;font-weight:700}
+.ip-chiprow{margin-top:40px;text-align:center}
+.ip-chiprow>p{font-size:13px;font-weight:600;margin:0 0 12px}
+.ip-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;list-style:none;margin:0;padding:0}
+.ip-chips li{padding:7px 16px;border-radius:999px;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.4);color:#fff;font-size:15px;font-weight:500}
+@media(max-width:720px){
+  .rt,.rt tbody,.rt tr,.rt th,.rt td{display:block;width:auto}
+  .rt thead{display:none}
+  .rt tr{background:rgba(255,255,255,.06);border-radius:16px;padding:20px;margin-bottom:16px}
+  .rt th,.rt td{padding:0;border:0}
+  .rt tbody th{width:auto;font-size:20px;margin-bottom:4px}
+  .rt td{margin-top:14px}
+  .rt td::before{content:attr(data-label);display:block;font-size:13px;font-weight:600;color:var(--muted-d);margin-bottom:2px}
+  .rt td+td{color:#fff}
+}
+
+/* configured for your industry */
+.cfg{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px;margin-top:40px}
+.cfg-item{display:flex;flex-direction:column;gap:14px;align-items:flex-start;background:#fff;border-radius:16px;padding:28px 24px;transition:transform .25s var(--ease)}
+.cfg-item:hover{transform:translateY(-3px)}
+.ip-tint .cfg-item p{color:var(--ink);margin:0;font-weight:500}
+.cfg-tag{display:inline-flex;border-radius:999px;padding:3px 12px;font-size:13px;font-weight:600;color:var(--indigo);background:var(--tint-2)}
+.cfg-chips{margin-top:32px}
+.cfg-chips .chips{justify-content:center}
+.cfg-chips .chips li{background:#fff}
+
+/* growth proof */
+.ip-proof{display:grid;gap:8px;margin-top:40px}
+.ip-proof-row{display:grid;grid-template-columns:minmax(96px,150px) 1fr;gap:24px;align-items:center;border-top:1px solid rgba(255,255,255,.2);padding:24px 0}
+.ip-navy p.ip-num.p-num{font-size:96px;margin:0;color:transparent;-webkit-text-stroke:1.5px var(--corn)}
+.ip-proof-row p:not(.ip-num){font-size:clamp(22px,2.4vw,30px);line-height:1.15;font-weight:700;color:#fff;margin:0}
+@media(max-width:600px){.ip-navy p.ip-num.p-num{font-size:64px}.ip-proof-row{grid-template-columns:80px 1fr;gap:16px}}
+
+/* seats and plan fit: solid cards */
+.ip-seats{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:48px}
+.ip-seat{background:var(--grey-1);border-radius:16px;padding:28px 24px;transition:transform .25s var(--ease)}
+.ip-seat:hover{transform:translateY(-3px)}
+.ip-seat .ip-h3{margin-bottom:12px}
+.ip-seat p{margin:0 0 10px}
+.ip-seat p b{color:var(--indigo);font-weight:600}
+.ip-plans{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:48px}
+.ip-plan{background:#fff;border-radius:16px;padding:28px 24px;transition:transform .25s var(--ease)}
+.ip-plan:hover{transform:translateY(-3px)}
+.ip-plan .ip-h3{margin-bottom:12px;color:var(--indigo)}
+.ip-plan p{margin:0}
+.ip-plans-link{margin-top:28px;text-align:center}
+@media(max-width:960px){.ip-seats,.ip-plans{grid-template-columns:1fr}}
+
+/* FAQ (native details, no JavaScript) */
+.ip-faq{max-width:52rem;margin:40px auto 0}
+.ip-faq details{border-top:1px solid var(--grey-2)}
+.ip-faq details:last-child{border-bottom:1px solid var(--grey-2)}
+.ip-faq summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:24px;min-height:64px;padding:16px 0;font-weight:600;font-size:20px;line-height:1.3;color:var(--ink);transition:color .2s}
+.ip-faq summary:hover{color:var(--indigo)}
+.ip-faq summary::-webkit-details-marker{display:none}
+.ip-faq summary::after{content:"+";flex:none;font-size:28px;font-weight:400;color:var(--indigo);line-height:1;transition:transform .25s var(--ease)}
+.ip-faq details[open] summary::after{transform:rotate(45deg)}
+.ip-faq details p{margin:0 0 24px;max-width:42rem}
+
+/* CTA band: indigo, form card is a solid white panel */
+.ip-cta{padding:var(--pad) 0}
+.ip-cta-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+.ip-cta .ip-h2{font-size:clamp(36px,4.6vw,56px);color:#fff;margin-bottom:24px;text-align:left}
+.ip-cta-center .ip-h2{text-align:center}
+.ip-cta-form{background:#fff;color:var(--ink);border-radius:24px;padding:40px;display:grid;gap:16px}
+.ip-cta-form label{display:grid;gap:6px;font-size:14px;font-weight:600;color:var(--ink)}
+.ip-cta-form input,.ip-cta-form select{font:400 16px var(--f);color:var(--ink);background:#fff;border:0;box-shadow:inset 0 0 0 1.5px var(--grey-2);border-radius:12px;padding:10px 14px;min-height:48px;width:100%}
+.ip-cta-form input:focus,.ip-cta-form select:focus{outline:none;box-shadow:inset 0 0 0 2px var(--bright)}
+.ip-cta-form .ip-btn{width:100%}
+.ip-cta-form .form-msg{min-height:1.4em;color:var(--indigo)!important;font-weight:600;margin:0}
+.ip-cta-center{text-align:center}
+@media(max-width:960px){.ip-cta-grid{grid-template-columns:1fr;gap:40px}.ip-cta-form{padding:26px}}
+
+/* hub extras */
+.ip-strip{text-align:center}
+.ip-strip .ip-h3{margin-bottom:12px}
+.ip-strip p{margin:0 auto 24px;max-width:36rem}
+@media(max-width:700px){.ip-hero{padding:56px 0 72px}}
+.rt--2 tbody th{width:44%}.rt--2 td{width:56%}
+.ip-plans>*,.ip-q3>*,.cfg>*,.sectors>*{min-width:0}
