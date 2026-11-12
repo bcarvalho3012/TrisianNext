@@ -1,116 +1,53 @@
-/* The motion system (Directive v5 section 3). Loaded on every page, after styles.css.
-   Motion is evidence: slow, eased, once. Only transform and opacity animate (the accordion uses grid-template-rows instead).
-   Easing everywhere is --ease. A hidden state exists only under .js, so the page is complete without JavaScript.
-   Reduced motion (prefers-reduced-motion: reduce): no parallax, no float, no cursor lean, no scrub, no counters, no dot,
-   reveals are instant, every scene shows its static end frame (scene 1 shows two), hover changes colour only.
-   No em dashes. */
+/* The motion layer (design/v2). Loaded on every page, after styles.css.
+   Calm and once: reveals rise 14px with a fade as they scroll in, hovers lift, the accordion opens with grid-template-rows.
+   A hidden state exists only under .js and only without reduced motion, so the page is complete without JavaScript. */
 :root{
-  --t-micro:180ms;     /* hover, focus, field borders, accordion icon (150 to 200ms) */
-  --t-ui:400ms;        /* reveals, lifts, card entry (250 to 500ms) */
-  --t-max-ui:600ms;    /* the longest UI transition; nothing in the interface runs longer */
-  --t-beat:1200ms;     /* one beat inside a scene; a whole scene runs 8s at most */
-  --t-count:1200ms;    /* stat counters, once */
-  --reveal-y:14px;     /* reveals rise 12 to 16px with a fade */
-  --stagger:80ms;      /* 60 to 120ms, capped at 6 items */
+  --t-micro:180ms;
+  --t-ui:450ms;
+  --reveal-y:14px;
+  --stagger:70ms;
 }
 
-/* ---- the depth component (section 4.1) ----
-   --depth runs from -1 (near, moves ahead of the scroll) to 1 (far, lags behind it). --reach is the travel in px.
-   --p is progress through the frame, -1 as it enters to 1 as it leaves. js/main.js writes --p on the nearest [data-scene]
-   or section, once per frame, from the single rAF loop. The individual translate property composes with reveal transforms.
-   Back .8, mid .35, ground 0, front -.35. Total travel is 2 x reach x depth. Off under 768px and under reduced motion. */
-.depth{--reach:32px;translate:0 calc(var(--p,0) * var(--depth,0) * var(--reach))}
-.depth-live .depth,.depth-live.depth{will-change:translate}
-@media (max-width:767px){.depth{translate:none!important}}
-@media (prefers-reduced-motion:reduce){.depth{translate:none!important;will-change:auto!important}}
-
-/* ---- nav (5.1): hairline fades in after 8px of scroll, dropdowns fade with a 4px rise, the button lifts 2px ---- */
-.nav-wrap{transition:border-color 150ms var(--ease)}
-.dd{animation-duration:var(--t-micro)}
-.has-dd.open .dd{animation:ddin2 180ms var(--ease)}
-@media (hover:hover) and (min-width:981px){.has-dd:hover .dd{animation:ddin2 180ms var(--ease)}}
-@keyframes ddin2{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
-.btn{transition:background var(--t-micro),transform 200ms var(--ease)}
-
-/* ---- the icon float (v3, tightened for WCAG 2.2.2): two 2.4s beats, up and back, then it rests. Never runs past 5 seconds. ---- */
 @media (prefers-reduced-motion:no-preference){
-  .is-live .ico--rich .ico__float{animation:ico-float 2.4s ease-in-out 2 alternate;animation-delay:calc(var(--fi,0) * 90ms)}
-}
-
-/* ---- the regulation row: a visible pause control (WCAG 2.2.2). It also pauses on hover and focus (v3). ---- */
-.cert-pause{position:absolute;right:var(--side);top:-18px;z-index:2;display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 16px;border:0;border-radius:999px;background:#fff;color:var(--indigo);font:600 14px/1 var(--f);box-shadow:inset 0 0 0 1.5px var(--tint-2);cursor:pointer;transition:background var(--t-micro),box-shadow var(--t-micro)}
-.cert-pause:hover{background:var(--tint-1)}
-.cert-pause svg{width:14px;height:14px;fill:currentColor}
-.cert-pause .i-play{display:none}
-.cert.is-paused .cert-track{animation-play-state:paused}
-.cert.is-paused .cert-pause .i-play{display:inline}
-.cert.is-paused .cert-pause .i-pause{display:none}
-@media (prefers-reduced-motion:reduce){.cert-pause{display:none}}
-
-
-/* ================= reveals (Directive v5 section 5). Hidden states exist only under .js and only without reduced motion. ================= */
-@media (prefers-reduced-motion:no-preference){
-  /* one distance for every reveal: 14px up with a fade. Left and right variants become up reveals. */
-  .js [data-reveal],.js [data-reveal="left"],.js [data-reveal="right"],.js [data-stagger]>*{opacity:0;transform:translateY(var(--reveal-y))}
-  .js [data-reveal="scale"]{transform:translateY(var(--reveal-y))}
-  .js [data-reveal].in,.js [data-stagger].in>*{opacity:1;transform:none;transition:opacity var(--t-ui) var(--ease),transform 500ms var(--ease)}
+  /* reveals */
+  .js [data-reveal],.js [data-stagger]>*{opacity:0;transform:translateY(var(--reveal-y))}
+  .js [data-reveal].in,.js [data-stagger].in>*{opacity:1;transform:none;transition:opacity var(--t-ui) var(--ease),transform 550ms var(--ease)}
   .js [data-stagger].in>*{transition-delay:calc(var(--i,0) * var(--gap,var(--stagger)) + var(--hold,0ms))}
   .js [data-stagger].in.settled>*{transition-delay:0s}
-  .js .m-body .m-last{--hold:200ms}      /* "Trisian writes it first." lands alone, after a hold */
+  /* once the entrance is done, hover lifts must not inherit the stagger */
+  .js [data-stagger].in.settled>.box,.js [data-stagger].in.settled>.tile,.js [data-stagger].in.settled>.seat,.js [data-stagger].in.settled>.gcard,.js [data-stagger].in.settled>.lvl,.js [data-stagger].in.settled>li,.js [data-stagger].in.settled>.hs,.js [data-stagger].in.settled>.person,.js [data-stagger].in.settled>.sector{transition:transform .25s var(--ease),box-shadow .25s}
 
-  /* hero (5.2): the line rises and fades in (500ms), the body follows 120ms later, the four words on a 100ms stagger. */
-  .js .hero .h1{opacity:0;transform:translateY(var(--reveal-y))}
-  .js .hero .h1.fit{opacity:1;transform:none;transition:opacity 500ms var(--ease),transform 500ms var(--ease)}
-  .js .hero .hero-sub,.js .hero .hero-strip li,.js .hero .scroll-cue{opacity:0}
-  .js .hero.go .hero-sub{animation:fadeup2 500ms var(--ease) 120ms both}
-  .js .hero.go .hero-strip li{animation:fadeup2 400ms var(--ease) both;animation-delay:calc(360ms + var(--i) * 100ms)}
-  .js .hero.go .scroll-cue{animation:fadeup2 500ms var(--ease) 900ms both}
-  @keyframes fadeup2{from{opacity:0;transform:translateY(var(--reveal-y))}to{opacity:1;transform:none}}
-  .scroll-cue svg{animation:none}                    /* a bouncing cue is cut: it sits still */
-  .scroll-cue svg{transition:translate var(--t-micro) var(--ease)}
-  .scroll-cue:hover svg{translate:0 6px}
+  /* hero: the text rises, the tile follows */
+  .js .hero .hero-in>*{opacity:0;transform:translateY(var(--reveal-y))}
+  .js .hero .hero-tile{opacity:0;transform:translateY(18px)}
+  .js .hero.go .hero-in>*{opacity:1;transform:none;transition:opacity 550ms var(--ease),transform 600ms var(--ease);transition-delay:calc(var(--i,0) * 110ms)}
+  .js .hero.go .hero-tile{opacity:1;transform:none;transition:opacity 700ms var(--ease),transform 800ms var(--ease);transition-delay:200ms}
 
-  /* stats (5.6): four rounded boxes rise 12px on an 80ms stagger; only 28 and 9 count (js); the regulation row arrives as one group */
-  .js .cert{opacity:0;transition:opacity 400ms var(--ease)}
-  .js .cert.in{opacity:1}
+  /* services: the three lines draw once */
+  .js .move:not(.in) .mv-l{stroke-dashoffset:1}
+  .js .move.in .mv-l{animation:draw .9s var(--ease) both;animation-delay:.3s}
+  .js .move:not(.in) .mv-tile,.js .move:not(.in) .mv-chips{opacity:0}
+  .js .move.in .mv-chips{animation:fadeup .6s var(--ease) both}
+  .js .move.in .mv-tile{animation:fadeup .6s var(--ease) .9s both}
+  @keyframes draw{to{stroke-dashoffset:0}}
+  @keyframes fadeup{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 
-  /* the form card (5.12): rises once; field borders ease in 150ms; a 2px bar sweeps the button's bottom edge while sending */
-  .form input,.form select{transition:box-shadow 150ms var(--ease)}
+  /* coverage: the ladder bars grow once */
+  .js .ladder:not(.in) .lb{transform:scaleX(0)}
+  .js .ladder.in .lb{animation:growx .8s var(--ease) both;animation-delay:calc(var(--i) * .35s)}
+  @keyframes growx{from{transform:scaleX(0)}to{transform:none}}
+
+  /* the form button: a 2px bar sweeps its bottom edge while sending */
   .form .btn{position:relative;overflow:hidden}
   .form .btn::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:var(--tint-2);transform:scaleX(0);transform-origin:left;opacity:0}
   .form.is-sending .btn::after{opacity:1;animation:sweep-bar 900ms var(--ease) both}
   @keyframes sweep-bar{from{transform:scaleX(0)}to{transform:scaleX(1)}}
-
-  /* footer wordmark (5.13): rises 40px across the last 400px of scroll, under its fixed fade-to-black mask */
-  .foot-mark{translate:0 calc((1 - var(--fr,1)) * 40px)}
 }
 
-/* ---- questions (5.11): the answer opens with the grid-template-rows technique (300ms); the plus turns 45deg into a cross (180ms).
-   Without JavaScript the native details element opens instantly. ---- */
+/* questions: the answer opens with the grid-template-rows technique (300ms); the plus turns into a cross (180ms) */
 .faq-list summary svg{transition:transform var(--t-micro) var(--ease)}
 .faq-list details[open] summary svg{transform:rotate(45deg)}
 .js .faq-list .ans-wrap{display:grid;grid-template-rows:0fr;transition:grid-template-rows 300ms var(--ease)}
 .js .faq-list details.is-open .ans-wrap{grid-template-rows:1fr}
 .ans-in{min-height:0;overflow:hidden}
-.faq-list .ans-in p{padding:0 44px 24px 0}
 @media (prefers-reduced-motion:reduce){.js .faq-list .ans-wrap{transition:none}.faq-list summary svg{transition:none}}
-.faq-list .ans-in p{animation:none}
-
-/* ---- v6: the orphan rule. Body text and headings wrap without leaving one or two words alone. ---- */
-p,li,.lead{text-wrap:pretty}
-h1,h2,h3,.balance{text-wrap:balance}
-
-/* ---- v6: icons are hover-only on the home page. No entry fade, no float, no cursor lean, no Level 2 overlays. The hover is v3's
-   (lift 8px, scale 1.05, tilt -1.5deg, 250ms). The three "Also in every plan" tiles and the staircase-free seat row do not move at all. ---- */
-.js .home .ico{opacity:1!important;transform:none!important;transition:none!important}
-.home .ico--rich .ico__float{animation:none!important}
-.home .ico__ov{display:none!important}
-.home .ico--still .ico__img{transform:none!important}
-.home .tiles3 .tile{transition:none}
-.home [data-ico-host]{transition:none}
-@media (hover:hover) and (pointer:fine){
-  .js .home [data-ico-host]:hover,.home [data-ico-host]:hover{transform:none!important}
-  .home .box[data-ico-host]:hover .ico--rich .ico__img,.home .hs[data-ico-host]:hover .ico--rich .ico__img{transform:translateY(-8px) scale(1.05) rotate(-1.5deg)!important;transition:transform 250ms var(--ease)}
-  .home .box[data-ico-host]:hover .ico--simple .ico__img,.home .hs[data-ico-host]:hover .ico--simple .ico__img{transform:translateY(-6px) scale(1.06)!important;transition:transform 250ms var(--ease)}
-}
-.nb{white-space:nowrap}
