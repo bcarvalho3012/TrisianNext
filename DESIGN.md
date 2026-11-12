@@ -24,7 +24,7 @@ illustrations where they use photos, a single-row nav, and the editorial "answer
 3. The six animated scenes are shown as static illustrations (their end frames). `css/scenes.css` is retired.
    Scroll reveals, hovers and the two stat counters remain. Parallax, depth, cursor lean, marquee and loops are gone.
 4. The purple reserved for the framework row stays reserved; the framework row is now a static chip strip.
-5. "PHOTO PENDING" placeholders become quiet gradient tiles with their staging label as a small caption.
+5. The seven "PHOTO PENDING" placeholders now carry Pexels photos (see assets/img/CREDITS.md); the gradient tile remains the fallback while a photo loads.
 
 ## Tokens
 
