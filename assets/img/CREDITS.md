@@ -7,7 +7,7 @@ Downloaded 2026-11-12 (the three Plans and Projects hero/whiteboard photos repla
 | File | Where | Source |
 |---|---|---|
 | plans-hero.jpg | Plans page hero | https://www.pexels.com/photo/7433829/ |
-| plans-whiteboard.jpg | Plans page, "The plans are fixed" | https://www.pexels.com/photo/7869306/ |
+| plans-whiteboard.jpg | Plans page, "The plans are fixed" | https://www.pexels.com/photo/7698709/ |
 | projects-hero.jpg | Projects page hero | https://www.pexels.com/photo/7698706/ |
 | projects-migrations.jpg | Projects, Migrations band | https://www.pexels.com/photo/442150/ |
 | projects-security.jpg | Projects, Defenses and controls band | https://www.pexels.com/photo/11783119/ |
