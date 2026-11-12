@@ -25,6 +25,7 @@ const META_KEEP = new Set(["description", "og:title", "og:description", "twitter
 const SKIP = new Set(["script", "style", "noscript", "svg", "template"]);
 const BLOCK = new Set("p li h1 h2 h3 h4 h5 h6 div section article header footer nav dt dd td th tr figcaption blockquote button a summary label option title main aside form fieldset legend details".split(" "));
 const ATTRS = ["alt", "aria-label", "title", "placeholder"];
+const ATTR_KEY = { alt: "img", "aria-label": "img" }; // the same description, whichever attribute carries it
 
 const ENT = { amp: "&", lt: "<", gt: ">", quot: '"', apos: "'", nbsp: " ", rsquo: "\u2019", lsquo: "\u2018", rdquo: "\u201d", ldquo: "\u201c", hellip: "\u2026", ndash: "\u2013", mdash: "\u2014", copy: "\u00a9", trade: "\u2122", reg: "\u00ae" };
 const decode = (s) => s.replace(/&(#x[0-9a-f]+|#\d+|[a-z]+);/gi, (m, e) => {
@@ -69,7 +70,8 @@ function extract(html) {
       continue;
     }
     if (tag === "input" && !["hidden", "submit", "button"].includes((a.type || "").toLowerCase()) && a.value) lines.push("value: " + norm(a.value));
-    for (const k of ATTRS) if (a[k] && norm(a[k])) lines.push(`${k}: ${norm(a[k])}`);
+    for (const k of ATTRS) if (a[k] && norm(a[k])) lines.push(`${ATTR_KEY[k] || k}: ${norm(a[k])}`);
+    if (tag === "span" && (a.class || "").split(" ").includes("ph-label")) { skip = "span"; continue; } // staging label, never reader copy
     if (BLOCK.has(tag)) flush();
     if (tag === "br") buf += " ";
     if (SKIP.has(tag) && !skip) {
@@ -114,18 +116,24 @@ function diff(a, b) {
   return out;
 }
 
-let bad = 0;
-const list = pages(ROOT);
-for (const p of list) {
-  const rel = relative(ROOT, p).split("\\").join("/");
-  const base = gitShow(rel);
-  if (base === null) { console.log(`NEW   ${rel} (not on ${ref}; skipped)`); continue; }
-  const a = extract(base), b = extract(readFileSync(p, "utf8"));
-  const sa = [...a].sort(), sb = [...b].sort();
-  if (sa.length === sb.length && sa.every((l, k) => l === sb[k])) { if (verbose) console.log(`ok    ${rel} (${b.length} text lines)`); continue; }
-  bad++;
-  console.log(`DIFF  ${rel}`);
-  for (const l of diff(a, b)) console.log("   " + l);
+export { extract };
+
+function main() {
+  let bad = 0;
+  const list = pages(ROOT);
+  for (const p of list) {
+    const rel = relative(ROOT, p).split("\\").join("/");
+    const base = gitShow(rel);
+    if (base === null) { console.log(`NEW   ${rel} (not on ${ref}; skipped)`); continue; }
+    const a = extract(base), b = extract(readFileSync(p, "utf8"));
+    const sa = [...a].sort(), sb = [...b].sort();
+    if (sa.length === sb.length && sa.every((l, k) => l === sb[k])) { if (verbose) console.log(`ok    ${rel} (${b.length} text lines)`); continue; }
+    bad++;
+    console.log(`DIFF  ${rel}`);
+    for (const l of diff(a, b)) console.log("   " + l);
+  }
+  console.log(`\n${list.length} pages checked, ${bad} with copy changes.`);
+  process.exit(bad ? 1 : 0);
 }
-console.log(`\n${list.length} pages checked, ${bad} with copy changes.`);
-process.exit(bad ? 1 : 0);
+
+if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) main();

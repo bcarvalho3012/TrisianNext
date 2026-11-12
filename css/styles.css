@@ -465,7 +465,9 @@ h1,h2,h3{text-wrap:balance}
 @media (max-width:900px){.page-hero .wrap{grid-template-columns:1fr}.page-hero .ph{grid-row:auto;grid-column:1;margin-top:8px;aspect-ratio:16/9!important}.page-hero>.wrap>*:not(.ph){grid-column:1}}
 
 /* picture placeholder: a quiet gradient tile; the staging label is a small caption for whoever drops the photo in */
-.ph{position:relative;overflow:hidden;border-radius:var(--r-panel);background:var(--grad);display:grid;place-items:end start;box-shadow:var(--shadow)}
+.ph{position:relative;overflow:hidden;border-radius:var(--r-panel);background:var(--grad);display:grid;place-items:end start;box-shadow:var(--shadow);aspect-ratio:21/9;margin:0}
+.ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.ph:has(img)::after{display:none}
 .ph::after{content:"";position:absolute;inset:0;background-image:repeating-linear-gradient(135deg,transparent 0 22px,rgba(255,255,255,.05) 22px 23px)}
 .ph .ph-label{position:relative;z-index:1;padding:14px 18px;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.6)}
 .ph-band{margin:0 0 28px;aspect-ratio:16/4!important}
